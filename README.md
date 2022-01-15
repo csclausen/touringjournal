@@ -16,4 +16,7 @@ $ export FLASK_APP=flaskapp
 
 $ export FLASK_ENV=development
 
+# If first time setup or you want to drop database and start fresh
+$ flask init-db
+
 $ flask run

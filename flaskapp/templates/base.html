@@ -4,10 +4,10 @@
 <head>
     <link href="/static/output.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %} - Flask App</title>
+    <title>Journal</title>
 </head>
 <body>
-    <nav class="container flex justify-end py-8 mx-auto bg-white">
+    <nav class="flex justify-end py-8 mx-auto bg-white">
         <ul class="flex justify-end">
             {% if g.user %}
                 <li class="mr-6"><span>{{ g.user['username'] }}</span></li>
@@ -18,12 +18,9 @@
             {% endif %} 
           </ul>
       </nav>
-    <section class="content">
-        <header>
-            {% block header %}{% endblock %}
-        </header>
+    <section class="flex flex-col items-center justify-center content-center">
         {% for message in get_flashed_messages() %}
-            <div class="flash">{{ message }}</div>
+            <div class="text-red-700 rounded" role="alert">{{ message }}</div>
         {% endfor %}
         {% block content %}{% endblock %}
     </section>
