@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<!-- Include stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<!-- Create the editor container -->
+<div class="grid grid-cols-4 gap-4">
+    <div class="col-span-1">
+        <ul class="border-solid border-2 text-center">
+            <li class="border-solid border-2">Test</li>
+            <li>Test2</li>
+        </ul>
+    </div>
+
+    <div class="col-span-2 col-start-2" id="content-container">
+        <div id="toolbar-container">
+            <button class="ql-bold" data-toggle="tooltip" data-placement="bottom" title="Bold"></button>
+            <button class="ql-italic" data-toggle="tooltip" data-placement="bottom" title="Add italic text <cmd+i>"></button>
+        </div>
+        <div id="editor-container"></div>
+      </div> 
+</div>
+
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+<script>
+  var quill = new Quill('#editor-container', {
+    theme: 'snow',
+    modules: {
+      toolbar: '#toolbar-container'
+    },
+  });
+</script>
+{% endblock %}

@@ -10,7 +10,7 @@
     <nav class="flex justify-end py-8 mx-auto bg-white">
         <ul class="flex justify-end">
             {% if g.user %}
-                <li class="mr-6"><span>{{ g.user['username'] }}</span></li>
+                <li class="mr-6"><span class="block text-gray-700 text-sm font-bold mb-2">{{ g.user['username'] }}</span></li>
                 {{ nav_link('auth.logout', 'Logout') }}
             {% else %}
                 {{ nav_link('auth.register', 'Register') }}
@@ -18,11 +18,8 @@
             {% endif %} 
           </ul>
       </nav>
-    <section class="flex flex-col items-center justify-center content-center">
-        {% for message in get_flashed_messages() %}
-            <div class="text-red-700 rounded" role="alert">{{ message }}</div>
-        {% endfor %}
-        {% block content %}{% endblock %}
-    </section>
+
+      {% block content %}{% endblock %}
+
 </body>
 </html>

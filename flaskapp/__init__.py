@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template
 
 from . import db
-from .views import auth
+from .views import auth, editor
 
 
 def create_app(test_config=None):
@@ -34,6 +34,7 @@ def create_app(test_config=None):
 
     # register blueprints
     app.register_blueprint(auth.bp) 
+    app.register_blueprint(editor.bp)
     app.add_url_rule('/', endpoint='index')
 
     return app
