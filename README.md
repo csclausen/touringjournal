@@ -1,4 +1,4 @@
-# flask-tailwind-css
+# touringjournal backend
 Minimal Flask quickstart with User login/registration views and Tailwind CSS
 
 Installation
