@@ -1,17 +1,19 @@
 import os
-
+from dotenv import load_dotenv
 from flask import Flask, render_template
 
-from . import db
 from .views import auth, editor
 
 
 def create_app(test_config=None):
+    load_dotenv()
+    secret_key = os.getenv('SECRET_KEY')
+    mongodb_url = os.getenv('MONGODB_URL')
     # create and configure app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='big secret',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        SECRET_KEY=secret_key,
+        MONGODB_URL=mongodb_url
     )
 
     if test_config is None:
@@ -24,9 +26,7 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-    
-    # init db
-    db.init_app(app)
+
 
     @app.route('/')
     def index():
