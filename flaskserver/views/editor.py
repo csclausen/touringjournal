@@ -2,9 +2,9 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for,
 )
 from werkzeug.security import generate_password_hash
-from flaskapp.db import get_db
+from flaskserver.db import get_db
 
-from flaskapp.views.auth import login_required
+from flaskserver.views.auth import login_required
 
 bp = Blueprint('editor', __name__, url_prefix='/editor')
 
@@ -24,4 +24,5 @@ def load_logged_in_user():
 @bp.route('/new', methods=['GET'])
 @login_required
 def new():
-    return render_template('editor/editor.html')
+    return 200
+
