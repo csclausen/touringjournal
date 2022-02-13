@@ -14,12 +14,18 @@ class UserAPI:
                 password=generate_password_hash(unhashed_password)
             )
 
-    def get_user_by_login(self, username, hashed_password):
+    def get_user_by_login(self, username, unhashed_password):
         """
         Login with username and password
         return user_dict
         """
-        return UserModelManager().get_user(username=username, password=check_password_hash(hashed_password))
+        user = UserModelManager().get_user(username=username)
+        if not user:
+            return None
+        password = user.password
+        if check_password_hash(password, unhashed_password):
+            return user
+        return None
 
     def get_user(self, user_id):
         """
