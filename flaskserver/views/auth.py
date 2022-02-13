@@ -10,9 +10,9 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('POST',))
 def register():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    email = request.form.get('email')
+    username = request.data.get('username')
+    password = request.data.get('password')
+    email = request.data.get('email')
 
     if any(x is None for x in [username, password, email]):
         return jsonify({'error': 'Missing fields'}), 400
@@ -24,8 +24,9 @@ def register():
 
 @bp.route('/login', methods=('POST',))
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
 
     if any(x is None for x in [username, password]):
         return jsonify({'error': 'Missing fields'}), 400
