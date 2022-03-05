@@ -3,23 +3,40 @@ from flask import (
     Blueprint, request, session, jsonify,
 )
 from flaskserver.controllers.auth import UserAPI
+from mongoengine.errors import NotUniqueError
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
+def user_return_value(user_obj):
+    return {
+        'id': str(user_obj.id),
+        'username': user_obj.username,
+        'email': user_obj.email
+    }
+
 @bp.route('/register', methods=('POST',))
 def register():
-    username = request.data.get('username')
-    password = request.data.get('password')
-    email = request.data.get('email')
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    email = data.get('email')
 
     if any(x is None for x in [username, password, email]):
         return jsonify({'error': 'Missing fields'}), 400
 
-    user = UserAPI().register_user(username, email, password)
+    try:
+        user = UserAPI().register_user(username, email, password)
+    except NotUniqueError:
+        return jsonify({'error': 'Username or Email in use'}), 400
+    if user:
+        session.clear()
+        session['user_id'] = str(user['id'])
 
-    return jsonify(user), 200
+        return user_return_value(user), 200
+
+    return jsonify({'error': 'There was a problem registering this user'}), 500
 
 
 @bp.route('/login', methods=('POST',))
@@ -35,9 +52,9 @@ def login():
 
     if user:
         session.clear()
-        session['user_id'] = user['id']
+        session['user_id'] = str(user['id'])
 
-        return jsonify(user), 200
+        return user_return_value(user), 200
 
     return jsonify({'error': 'Bad username or password'}), 401
 
